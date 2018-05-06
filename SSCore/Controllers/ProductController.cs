@@ -8,14 +8,19 @@ using SSCore.Models;
 
 namespace SSCore.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Product")]
+    //[Produces("application/json")]
+    //[Route("api/Product")]
     public class ProductController : Controller
     {
         IProductRepository repository;
         public ProductController(IProductRepository repo)
         {
             repository = repo;
+        }
+
+        public ViewResult List()
+        {
+            return View(repository.Products);
         }
     }
 }
