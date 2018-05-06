@@ -28,7 +28,8 @@ namespace SSCore
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 Configuration["Data:SportStoreProducts:ConnectionString"]));
-            services.AddTransient<IProductRepository, FakeProductRepository>();
+            //services.AddTransient<IProductRepository, FakeProductRepository>();
+            services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddMvc();
         }
 
@@ -48,6 +49,8 @@ namespace SSCore
                     name: "default",
                     template: "{controller=Product}/{action=List}/{id?}");
             });
+
+            SeedData.EnsurePopulated(app);
 
             //app.Run(async (context) =>
             //{
