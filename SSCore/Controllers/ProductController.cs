@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSCore.Models;
+using SSCore.Models.ViewModels;
 
 namespace SSCore.Controllers
 {
@@ -21,11 +22,19 @@ namespace SSCore.Controllers
 
         public ViewResult List(int productPage =1)
         {
-            return View(repository.Products
-                .OrderBy(p=>p.ProductID)
-                .Skip((productPage-1)*PageSize)
-                .Take(PageSize)
-                );
+            ProductsListViewModel plm = new ProductsListViewModel();
+            PagingInfo pi = new PagingInfo();
+            plm.Products= repository.Products
+                .OrderBy(p => p.ProductID)
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize);
+            pi.CurrentPage = productPage;
+            pi.ItemsPerPage = PageSize;
+            pi.TotalItems = repository.Products.Count();
+            plm.PagingInfo = pi;
+
+            return View(plm);
+
         }
     }
 }
