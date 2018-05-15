@@ -45,13 +45,33 @@ namespace SSCore
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {
+                //routes.MapRoute(
+                //    name: "pagination",
+                //    template: "Products/Page{productPage}",
+                //    defaults: new { Controller = "Product", action = "List" });
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{controller=Product}/{action=List}/{id?}");
                 routes.MapRoute(
-                    name: "pagination",
-                    template: "Products/Page{productPage}",
-                    defaults: new { Controller = "Product", action = "List" });
+                    name: null,
+                    template: "{category}/Page{productPage:int}",
+                    defaults: new { controller = "Product", action = "List" }
+                );
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Product}/{action=List}/{id?}");
+                    name: null,
+                    template: "Page{productPage:int}",
+                    defaults: new { controller = "Product", action = "List", productPage = 1 }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "{category}",
+                    defaults: new { controller = "Product", action = "List", productPage = 1 }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "",
+                    defaults: new { controller = "Product", action = "List", productPage = 1 });
+                routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
             });
 
             SeedData.EnsurePopulated(app);

@@ -20,11 +20,11 @@ namespace SSCore.Controllers
             repository = repo;
         }
 
-        public ViewResult List(int productPage =1)
+        public ViewResult List(string category, int productPage =1)
         {
             ProductsListViewModel plm = new ProductsListViewModel();
             PagingInfo pi = new PagingInfo();
-            plm.Products= repository.Products
+            plm.Products= repository.Products.Where(p=> category==null || p.Category == category)
                 .OrderBy(p => p.ProductID)
                 .Skip((productPage - 1) * PageSize)
                 .Take(PageSize);
@@ -32,6 +32,7 @@ namespace SSCore.Controllers
             pi.ItemsPerPage = PageSize;
             pi.TotalItems = repository.Products.Count();
             plm.PagingInfo = pi;
+            plm.CurrentCategory = category;
 
             return View(plm);
 
