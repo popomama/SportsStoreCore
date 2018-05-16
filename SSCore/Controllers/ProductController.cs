@@ -30,7 +30,11 @@ namespace SSCore.Controllers
                 .Take(PageSize);
             pi.CurrentPage = productPage;
             pi.ItemsPerPage = PageSize;
-            pi.TotalItems = repository.Products.Count();
+            if (category == null)
+                pi.TotalItems = repository.Products.Count();
+            else
+                pi.TotalItems = repository.Products.Where(p => p.Category == category).Count();
+
             plm.PagingInfo = pi;
             plm.CurrentCategory = category;
 
