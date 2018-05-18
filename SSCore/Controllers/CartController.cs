@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SSCore.Models;
 using Microsoft.AspNetCore.Http;
+using SSCore.Infrastructure;
+using SSCore.Models.ViewModels;
 
 namespace SSCore.Controllers
 {
@@ -52,9 +54,13 @@ namespace SSCore.Controllers
             return cart;
         }
 
-        public IActionResult Index()
+        public ViewResult Index(string returnUrl)
         {
-            return View();
+            CartIndexViewModel vm = new CartIndexViewModel();
+            vm.Cart = GetCart();
+            vm.ReturnUrl = returnUrl;
+
+            return View(vm);
         }
     }
 }
