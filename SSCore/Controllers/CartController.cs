@@ -12,10 +12,12 @@ namespace SSCore.Controllers
 {
     public class CartController : Controller
     {
+        Cart cart;
         IProductRepository repository;
-        public CartController(IProductRepository repo)
+        public CartController(IProductRepository repo, Cart cartService)
         {
             repository = repo;
+            cart = cartService;
         }
 
         public RedirectToActionResult AddToCart(int productId, string returnUrl)
@@ -23,9 +25,9 @@ namespace SSCore.Controllers
             Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
             if(product !=null)
             {
-                Cart cart = GetCart();
+                //Cart cart = GetCart();
                 cart.AddItem(product, 1);
-                SaveCart(cart);
+                //SaveCart(cart);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
@@ -36,9 +38,9 @@ namespace SSCore.Controllers
                 .FirstOrDefault(p => p.ProductID == productId);
             if (product != null)
             {
-                Cart cart = GetCart();
+//                Cart cart = GetCart();
                 cart.RemoveLine(product);
-                SaveCart(cart);
+  //              SaveCart(cart);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
@@ -57,7 +59,7 @@ namespace SSCore.Controllers
         public ViewResult Index(string returnUrl)
         {
             CartIndexViewModel vm = new CartIndexViewModel();
-            vm.Cart = GetCart();
+            vm.Cart = cart;// GetCart();
             vm.ReturnUrl = returnUrl;
 
             return View(vm);
