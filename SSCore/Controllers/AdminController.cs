@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SSCore.Models;
 
 namespace SSCore.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         IProductRepository repository;

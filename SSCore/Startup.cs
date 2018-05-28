@@ -90,6 +90,7 @@ namespace SSCore
             });
 
             SeedData.EnsurePopulated(app);
+            IdentitySeedData.EnsurePopulated(app);
 
             //app.Run(async (context) =>
             //{
